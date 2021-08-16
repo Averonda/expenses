@@ -1,0 +1,17 @@
+<form>
+    <div>
+        <span style="padding: 5%;align-items: center;">
+            <input required type="number" name="expenseAmount"[value]="expenseAmount"(input)="onTitleChange($event)"placeholder="Expense Amount">
+                <!-- <label>Expense Type</label> -->
+                <select name="expenseType" (input)="onClick($event)">
+                  <option value="">--Please Select an Expense Type--</option>
+                  <option value="Lodging">Lodging</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Food">Food</option>
+                  <option value="Other">Other(Please Explain)</option>
+                </select>
+            <input required type="text" name="details"[value]="details"(input)="onTitleChange1($event)"placeholder="Details">
+        </span>
+        <button (click)="onSubmit()">Submit an Expense</button>
+    </div>
+</form>

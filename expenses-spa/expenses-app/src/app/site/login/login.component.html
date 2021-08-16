@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<!-- TODO: add css -->
+<h3 style="text-align: center;">Welcome to the expense app!</h3>
+<h5 style="text-align: center;">Please login:</h5>
+
+<h4 style="text-align: center;">Login</h4>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm" style="text-align: center;">
+    <p><input type="text" name="userName" ngModel></p>
+    <p><input type="password" name="password" ngModel></p>
+    <button type="submit">Submit</button>
+</form>
