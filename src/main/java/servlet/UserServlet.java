@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.util.ExpensesConstants;
@@ -18,6 +21,8 @@ import manager.UserManager;
 
 @WebServlet("/users/*")
 public class UserServlet extends HttpServlet {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserServlet.class);
 
 	private UserManager manager = new UserManager();
 
@@ -41,7 +46,7 @@ public class UserServlet extends HttpServlet {
 			// get data from backend
 
 		}
-
+		logger.debug(jsonInString);
 		// send success response to client
 		resp.getWriter().print(jsonInString);
 		resp.setContentType(ExpensesConstants.HTTP_JSON_CONTENT);
@@ -59,7 +64,7 @@ public class UserServlet extends HttpServlet {
 
 			// persist data to backend
 			manager.create(user);
-			System.out.println("user created");
+			logger.debug(user.toString());			
 			// send success response to client
 			String jsonResponse = mapper.writeValueAsString(user);
 			resp.getWriter().print(jsonResponse);
@@ -68,7 +73,7 @@ public class UserServlet extends HttpServlet {
 			// send failure response to client
 			resp.getWriter().print(HttpUtil.getErrorMessage(e.getMessage()));
 			resp.setStatus(ExpensesConstants.HTTP_ERROR);
-			System.out.println("post error");
+			logger.debug(e.toString());
 		}
 
 		resp.setContentType(ExpensesConstants.HTTP_JSON_CONTENT);
@@ -85,6 +90,7 @@ public class UserServlet extends HttpServlet {
 			int id = Integer.parseInt(pathVariables[1]);
 			// manager.delete(id);
 			resp.setStatus(ExpensesConstants.HTTP_OK);
+			logger.debug("Deleted " + pathVariables);
 		}
 	}
 }

@@ -27,20 +27,19 @@ const routes:Routes = [
   declarations: [
     AppComponent,
     ExpenseListComponent,
-    LoginComponent,
     HomeComponent,
     AddExpenseComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     MatTableModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

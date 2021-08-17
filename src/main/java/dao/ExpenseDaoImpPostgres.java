@@ -4,15 +4,18 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import common.util.DBUtil;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pojo.Expense;
+import servlet.HomeServlet;
 
 public class ExpenseDaoImpPostgres implements ExpenseDAO {
-
+	private static final Logger logger = LoggerFactory.getLogger(ExpenseDaoImpPostgres.class);
 	@Override
 	public List<Expense> getAllExpense() {
 		Session session = null;
@@ -26,7 +29,7 @@ public class ExpenseDaoImpPostgres implements ExpenseDAO {
 			expenses = query.list();
 		} catch (HibernateException e) {
 			// TODO add custom exception
-			e.printStackTrace();
+			logger.debug(e.toString());
 		} finally {
 			session.close();
 		}
@@ -47,7 +50,7 @@ public class ExpenseDaoImpPostgres implements ExpenseDAO {
 			expense = query.uniqueResult();
 		} catch (HibernateException e) {
 			// TODO add custom exception
-			e.printStackTrace();
+			logger.debug(e.toString());
 		} finally {
 			session.close();
 		}
@@ -70,6 +73,7 @@ public class ExpenseDaoImpPostgres implements ExpenseDAO {
 			if (tx != null) {
 				tx.rollback();
 			}
+			logger.debug(e.toString());
 			throw e;
 		} finally {
 			session.close();
@@ -90,6 +94,7 @@ public class ExpenseDaoImpPostgres implements ExpenseDAO {
 			if (tx != null) {
 				tx.rollback();
 			}
+			logger.debug(e.toString());
 			throw e;
 		} finally {
 			session.close();
@@ -111,23 +116,10 @@ public class ExpenseDaoImpPostgres implements ExpenseDAO {
 			if (tx != null) {
 				tx.rollback();
 			}
+			logger.debug(e.toString());
 			throw e;
 		} finally {
 			session.close();
 		}
 	}
 
-//	public static void main(String[] args) {
-//		ExpenseDaoImpPostgres impl = new ExpenseDaoImpPostgres();
-//		List<Expense> obj = impl.getAllExpense();
-//		Expense exp = new Expense(1, 99, false,10.12,"Travel", "gas");
-//		System.out.println(obj);
-//		
-//		exp.setExpenseAmount(1.05);
-//		impl.createExpense(exp);
-//		
-//		
-//		System.out.println(exp);
-//	}
-
-}

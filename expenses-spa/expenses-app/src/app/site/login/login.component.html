@@ -4,8 +4,8 @@
 <h5 style="text-align: center;">Please login:</h5>
 
 <h4 style="text-align: center;">Login</h4>
-<form (ngSubmit)="onSubmit(f)" #f="ngForm" style="text-align: center;">
+<form style="text-align: center;" (ngSubmit)="onSubmit(form)" #form="ngForm" >
     <p><input type="text" name="userName" ngModel></p>
-    <p><input type="password" name="password" ngModel></p>
+    <p><input type="text" name="password" ngModel></p>
     <button type="submit">Submit</button>
 </form>

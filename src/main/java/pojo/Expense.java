@@ -6,9 +6,14 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
@@ -28,9 +33,10 @@ public class Expense implements Serializable {
 	@SequenceGenerator(name = "id_generator", sequenceName = "expenses_expense_id_seq", allocationSize = 1)
 	@Column(name = "expense_id")
 	private int expenseID;
-	@Column(name = "submitted_by")
-	private int submittedBy;
-	@Column(name = "approved_by")
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
+	@Column(name="approvedBy")
 	private int approvedBy;
 	@Column(name = "is_approved")
 	private boolean isApproved;
@@ -50,11 +56,11 @@ public class Expense implements Serializable {
 		super();
 	}
 
-	public Expense(int expenseID, int submittedBy, int approvedBy, boolean isApproved, double expenseAmount,
+	public Expense(int expenseID, int approvedBy, boolean isApproved, double expenseAmount,
 			String reimbersementType, String details, Timestamp dateSubmitted) {
 		super();
 		this.expenseID = expenseID;
-		this.submittedBy = submittedBy;
+		
 		this.approvedBy = approvedBy;
 		this.isApproved = isApproved;
 		this.expenseAmount = expenseAmount;
@@ -68,7 +74,7 @@ public class Expense implements Serializable {
 	public Expense(int submittedBy, int approvedBy, boolean isApproved, double expenseAmount, String reimbersementType,
 			String details) {
 		super();
-		this.submittedBy = submittedBy;
+		
 		this.approvedBy = approvedBy;
 		this.isApproved = isApproved;
 		this.expenseAmount = expenseAmount;
@@ -84,13 +90,7 @@ public class Expense implements Serializable {
 		this.expenseID = expenseID;
 	}
 
-	public int getSubmittedBy() {
-		return submittedBy;
-	}
-
-	public void setSubmittedBy(int submittedBy) {
-		this.submittedBy = submittedBy;
-	}
+	
 
 	public int getApprovedBy() {
 		return approvedBy;
@@ -146,7 +146,7 @@ public class Expense implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Expense [expenseID=" + expenseID + ", submittedBy=" + submittedBy + ", approvedBy=" + approvedBy
+		return "Expense [expenseID=" + expenseID + ", approvedBy=" + approvedBy
 				+ ", isApproved=" + isApproved + ", expenseAmount=" + expenseAmount + ", reimbersementType="
 				+ reimbersementType + ", details=" + details + ", dateSubmitted=" + dateSubmitted + "]";
 	}

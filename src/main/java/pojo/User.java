@@ -2,14 +2,21 @@ package pojo;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.mapping.Set;
 
 @Entity
 @Table(
@@ -25,8 +32,8 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
     @SequenceGenerator(name="id_generator", sequenceName = "users_user_id_seq", allocationSize = 1)
-	@Column(name="user_id")
-	private int userID;
+	@OneToMany(targetEntity = pojo.Expense.class, cascade = CascadeType.ALL, mappedBy="user", orphanRemoval = true)
+	private Set expenses;
 	@Column(name="username")
 	private String userName;
 	@Column
@@ -46,19 +53,13 @@ public class User implements Serializable{
 		this.password = password;
 	}
 	
-	public User(int userID, String userName, String password, boolean isApprover) {
+	public User( String userName, String password, boolean isApprover) {
 		super();
-		this.userID = userID;
 		this.userName = userName;
 		this.password = password;
 		this.isApprover = isApprover;
 	}
-	public int getUserID() {
-		return userID;
-	}
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
+	
 	public String getUserName() {
 		return userName;
 	}

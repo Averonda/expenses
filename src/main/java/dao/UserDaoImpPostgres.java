@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import common.util.DBUtil;
 
@@ -12,8 +14,10 @@ import org.hibernate.Transaction;
 
 import pojo.Expense;
 import pojo.User;
+import servlet.HomeServlet;
 
 public class UserDaoImpPostgres implements UserDAO {
+	private static final Logger logger = LoggerFactory.getLogger(UserDaoImpPostgres.class);
 
 	public UserDaoImpPostgres() {
 
@@ -32,10 +36,11 @@ public class UserDaoImpPostgres implements UserDAO {
 			System.out.println(userName + " " + password);
 
 			user = (User) query.uniqueResult();
+			logger.debug(user.toString());
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+			logger.debug(e.toString());
+			} finally {
 			session.close();
 		}
 
@@ -56,6 +61,7 @@ public class UserDaoImpPostgres implements UserDAO {
 			if (tx != null) {
 				tx.rollback();
 			}
+			logger.debug(e.toString());
 			throw e;
 		} finally {
 			session.close();
@@ -76,6 +82,7 @@ public class UserDaoImpPostgres implements UserDAO {
 			if (tx != null) {
 				tx.rollback();
 			}
+			logger.debug(e.toString());
 			throw e;
 		} finally {
 			session.close();
@@ -98,6 +105,7 @@ public class UserDaoImpPostgres implements UserDAO {
 			if (tx != null) {
 				tx.rollback();
 			}
+			logger.debug(e.toString());
 			throw e;
 		} finally {
 			session.close();
@@ -117,7 +125,7 @@ public class UserDaoImpPostgres implements UserDAO {
 			users = query.list();
 		} catch (HibernateException e) {
 			// TODO add custom exception
-			e.printStackTrace();
+			logger.debug(e.toString());
 		} finally {
 			session.close();
 		}
@@ -126,11 +134,5 @@ public class UserDaoImpPostgres implements UserDAO {
 	}
 
 	
-//	public static void main(String[] args) {
-//		UserDaoImpPostgres impl = new UserDaoImpPostgres();
-//		User obj = impl.getUser("test", "1234");
-//		impl.updateUser(obj, "123", false);
-//		System.out.println(obj);
-//	}
-//
+
 }
